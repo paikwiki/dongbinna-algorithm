@@ -190,7 +190,7 @@ print(array)
 
 ```python
 # 1부터 9까지의 수의 제곱 값을 포함하는 리스트
-array = [i * i for in range(1, 10)]
+array = [i * i for i in range(1, 10)]
 print(array)                        # [1, 4, 9, 16, 25, 36, 49, 64, 81]
 ```
 
@@ -213,7 +213,7 @@ m = 4
 array = [[0] * n] * m
 print(array) # [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
-array = [1][1] = 5
+array[1][1] = 5
 print(array) # [[0, 5, 0], [0, 5, 0], [0, 5, 0], [0, 5, 0]]
 ```
 
