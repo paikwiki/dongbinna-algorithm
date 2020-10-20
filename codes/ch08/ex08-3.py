@@ -6,7 +6,7 @@
 #    By: cbaek <cbaek@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/20 18:17:12 by cbaek             #+#    #+#              #
-#    Updated: 2020/10/20 18:19:23 by cbaek            ###   ########.fr        #
+#    Updated: 2020/10/20 18:46:50 by cbaek            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,3 +23,7 @@ def pibo(x):
 	d[x] = pibo(x - 1) + pibo(x - 2)
 	return d[x]
 pibo(6)
+
+# 결과
+# $ python codes/ch08/ex08-3.py
+# f(6) f(5) f(4) f(3) f(2) f(1) f(2) f(3) f(4)
