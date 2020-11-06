@@ -6,46 +6,37 @@
 #    By: cbaek <cbaek@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/06 20:22:48 by cbaek             #+#    #+#              #
-#    Updated: 2020/11/06 21:11:50 by cbaek            ###   ########.fr        #
+#    Updated: 2020/11/06 21:46:18 by cbaek            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Q06 무지의 먹방 라이브 p.316.
 # https://programmers.co.kr/learn/courses/30/lessons/42891?language=python3
 
+import heapq
+
 def solution(food_times, k):
-	answer = 0
-	foodQuantity = len(food_times)
-	smallestFood = min(food_times)
+	# 전체 음식을 먹는 시간보다 k가 크거나 같다면 -1
+	if sum(food_times) <= k:
+		return -1
 
-	preCount = 1
-	while (smallestFood >= preCount) and (foodQuantity * preCount <= k):
-		preCount += 1
-	preCount -= 1
+	# 시간이 적은 음식부터 빼야 하므로 우선순위 큐를 이용
+	q = []
+	for i in range(len(food_times)):
+		# (음식 시간, 음식번호) 형태로 우선순위 큐에 삽입
+		heapq.heappush(q, (food_times[i], i + 1))
 
-	for idx in range(0, foodQuantity - 1):
-		food_times[idx] = food_times[idx] - (preCount)
+	sum_value = 0 # 먹기 위해 사용한 시간
+	previous = 0 # 직전에 다 먹은 음식 시간
+	length = len(food_times) # 남은 음식의 개수
 
-	k -= foodQuantity * preCount
-	while k > 0:
-		for idx in range(answer, foodQuantity):
-			if food_times[idx] > 0:
-				food_times[idx] -= 1
-				if idx == foodQuantity - 1:
-					answer = 0
-				else:
-					answer = idx + 1
-				break
-		k -= 1
-	for idx in range(answer, foodQuantity):
-		if food_times[idx] != 0:
-			answer = idx
-			break
-		if idx == foodQuantity - 1:
-			for idx_sub in range(0, answer):
-				if food_times[idx_sub] != 0:
-					answer = idx
-	answer += 1
-	return answer
+	# sum_value + (현재의 음식 시간 - 이전 음식시간) * 현재 음식 개수와 k 비교
+	while sum_value + ((q[0][0] - previous) * length) <= k:
+		now = heapq.heappop(q)[0]
+		sum_value += (now - previous) * length
+		length -= 1 # 다 먹은 음식 제외
+		previous = now # 이전 음식 시간 재설정
 
-print(solution([3,1,2], 11)) # 1
+	# 남은 음식 중에서 몇 번째 음식인지 확인하여 출력
+	result = sorted(q, key = lambda x: x[1]) # 음식 번호 기준으로 정렬
+	return result[(k - sum_value) % length][1]
